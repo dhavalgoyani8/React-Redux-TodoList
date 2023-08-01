@@ -8,19 +8,19 @@ import {
   DELETE_ALL_TODO,
   PENDING_TODO,
   COMPLETE_TODO,
+  CHECK_UNCHECK_ALL_TODO,
 } from "../actions/actionType";
 
 const initialState = { todoList: [], filterString: "" };
 export const todoReducer = (state = initialState, action) => {
   switch (action.type) {
-
     case ADD_TODO: {
       return {
         ...state,
         todoList: [
           ...state.todoList,
           {
-            id: Math.random(),
+            id: Date.now(), // Math.random(),
             task: action.payload,
             isComplete: false,
           },
@@ -29,9 +29,11 @@ export const todoReducer = (state = initialState, action) => {
     }
 
     case DELETE_TODO: {
+
       let dlt = state.todoList.filter((element) => {
         return action.payload !== element.id;
       });
+
       return {
         ...state,
         todoList: dlt,
@@ -39,6 +41,7 @@ export const todoReducer = (state = initialState, action) => {
     }
 
     case CHECK_TODO:
+
       let check = state.todoList.map((element) => {
         if (action.payload === element.id) {
           return { ...element, isComplete: !element.isComplete };
@@ -46,18 +49,21 @@ export const todoReducer = (state = initialState, action) => {
           return element;
         }
       });
+
       return {
         ...state,
         todoList: check,
       };
 
     case EDIT_TODO: {
+
       let edit = state.todoList.map((element) => {
         if (action.payload.updateTodoTaskId === element.id) {
           return { ...element, task: action.payload.updateTodoTaskValue };
         }
         return element;
       });
+
       return {
         ...state,
         todoList: edit,
@@ -83,7 +89,7 @@ export const todoReducer = (state = initialState, action) => {
     case SHOW_ALL_TODO: {
       return {
         ...state,
-        filterString:SHOW_ALL_TODO,
+        filterString: SHOW_ALL_TODO,
       };
     }
 
@@ -98,6 +104,21 @@ export const todoReducer = (state = initialState, action) => {
       return {
         ...state,
         filterString: COMPLETE_TODO,
+      };
+    }
+
+    case CHECK_UNCHECK_ALL_TODO: {
+      let t = state.todoList.map((e) => {
+        if (state.todoList.some((e) => e.isComplete)) {
+          return { ...e, isComplete: false };
+        } else {
+          return { ...e, isComplete: true };
+        }
+      });
+
+      return {
+        ...state,
+        todoList: t,
       };
     }
 

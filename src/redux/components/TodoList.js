@@ -10,11 +10,13 @@ import {
   deleteAllTodo,
   pendingTodo,
   completeTodo,
+  checkUncheckAllTodo,
 } from "../actions/action";
 import { COMPLETE_TODO, PENDING_TODO } from "../actions/actionType";
 
 function TodoList() {
   const [inputTodoTask, setInputTodoTask] = useState("");
+
   const [updateTodoTaskId, setUpdateTodoTaskId] = useState(null);
   const [updateTodoTaskValue, setUpdateTodoTaskValue] = useState("");
 
@@ -30,9 +32,9 @@ function TodoList() {
 
       case COMPLETE_TODO:
         return todoList.filter((element) => element.isComplete);
-
-      default:
+      default: {
         return todoList;
+      }
     }
   }, [todoList, filterString]);
 
@@ -94,10 +96,28 @@ function TodoList() {
     }
   };
 
+  const handleSelectUnselectAll = () => {
+    dispatch(showAllTodo())
+    dispatch(checkUncheckAllTodo());
+  };
+
+  // Active button
+  let btn = document.querySelectorAll("button");
+  btn.forEach((e) => {
+    e.addEventListener("click", () => {
+      document.querySelector(".btn")?.classList.remove("btn");
+      e.classList.add("btn");
+    });
+  });
+
   return (
     <div style={{ textAlign: "center" }}>
       <div>
         <h1>Todo List</h1>
+
+        <button onClick={handleSelectUnselectAll}>
+          {todoList.some((e) => e.isComplete) ? "Uncheck All" : "Check All"}
+        </button>
 
         <input
           type="text"
@@ -136,7 +156,7 @@ function TodoList() {
                     }
                   />
                 ) : (
-                  <label>{element.task}</label>
+                  <span>{element.task}</span>
                 )}
               </span>
 

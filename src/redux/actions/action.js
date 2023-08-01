@@ -1,4 +1,5 @@
 import {
+  // Todo App
   ADD_TODO,
   DELETE_TODO,
   CHECK_TODO,
@@ -8,8 +9,14 @@ import {
   DELETE_ALL_COMPLETE_TODO,
   PENDING_TODO,
   COMPLETE_TODO,
+  CHECK_UNCHECK_ALL_TODO,
+
+  // Counter App
+  INCREMENT,
+  DECREMENT,
 } from "./actionType";
 
+// Todo App
 export const addTodo = (inputValue) => {
   return {
     type: ADD_TODO,
@@ -53,20 +60,40 @@ export const deleteAllTodo = () => {
   };
 };
 
- export const showAllTodo = () => {
+export const showAllTodo = () => {
   return {
     type: SHOW_ALL_TODO,
   };
 };
 
 export const pendingTodo = () => {
-    return {
-        type:PENDING_TODO,
-    }
-}
+  return {
+    type: PENDING_TODO,
+  };
+};
 
 export const completeTodo = () => {
-    return {
-        type:COMPLETE_TODO,
-    }
-}
+  return {
+    type: COMPLETE_TODO,
+  };
+};
+
+export const checkUncheckAllTodo = () => {
+  return {
+    type: CHECK_UNCHECK_ALL_TODO,
+  };
+};
+
+// Counter App
+
+export const increment = () => {
+  return {
+    type: INCREMENT,
+  };
+};
+
+export const decrement = () => {
+  return {
+    type: DECREMENT,
+  };
+};
